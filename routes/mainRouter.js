@@ -4,7 +4,9 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
 
-    res.send('Work')
+    res.status(405).json({
+        "message": "Please, use the method POST for comunicate with this API."
+    })
 })
 
 router.post('/', (req, res) => {
@@ -12,7 +14,7 @@ router.post('/', (req, res) => {
     const data = req.body.data
     console.log(data)
 
-    const handleErrors = (message) => {
+    const comunicateErrors = (message) => {
 
         res.status(400).json({
 
@@ -22,13 +24,19 @@ router.post('/', (req, res) => {
 
     if (!Array.isArray(data)) {
 
-        handleErrors(`Array of times don't sended, you sended a ${typeof(data)}`)
+        comunicateErrors(`Array of times don't sended, you sended a ${typeof(data)}`)
         return
     }
 
     if (data.length === 0) {
 
-        handleErrors(`Array of times are empty`)
+        comunicateErrors(`Array of times are empty`)
+        return
+    }
+
+    if (data.length >= 200) {
+
+        comunicateErrors(`You sended ${data.length} times, but 200 are the limit`)
         return
     }
 
@@ -43,7 +51,7 @@ router.post('/', (req, res) => {
 
             if (isNaN(str)) {
 
-                handleErrors(`The value Nº ${separatedTime.indexOf(str) + 1} in the array Nº ${data.indexOf(time) + 1} are not valid`)
+                comunicateErrors(`The value Nº ${separatedTime.indexOf(str) + 1} in the array Nº ${data.indexOf(time) + 1} are not valid`)
             }
         })
 
@@ -85,7 +93,7 @@ router.post('/', (req, res) => {
 
             default:
 
-                handleErrors(`Sended ${quantityColons} colons in one of your time`)
+                comunicateErrors(`Sended ${quantityColons} colons in your time Nº ${data.indexOf(time) + 1}`)
                 break;
         }
     });
