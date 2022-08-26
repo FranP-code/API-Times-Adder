@@ -4,7 +4,7 @@ With this API you can add each of the times introduced in the array sended.
 
 ## How I use the API?
 
-You have to do a **POST request** to this link: https://api-times-adder.herokuapp.com/api/v1
+You have to do a **POST request** to this link: https://api-times-adder.up.railway.app/api/v1
 
 The body must have this structure:
 
